@@ -1,14 +1,13 @@
 <script setup>
 import { Suspense } from 'vue'
-import PokemonCard from "./components/PokemonCard.vue";
 import Loader from './components/Loader.vue'
+import PokemonList from './components/PokemonList.vue';
 </script>
 
 <template>
-  <h1>Template HelloWorld</h1>
   <Suspense>
     <template #default>
-      <PokemonCard />
+      <PokemonList />
     </template>
     <template #fallback>
       <Loader />

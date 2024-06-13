@@ -1,8 +1,8 @@
 export const POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon';
 export const POKEMON_TYPES_URL = 'https://pokeapi.co/api/v2/type'
-export const POKEMON_IMAGE_BASE_URL =
-  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
-
+// export const POKEMON_IMAGE_BASE_URL =
+//   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world';
+export const POKEMON_IMAGE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon'
 export const POKEMON_TYPE_COLORS = {
   'normal': '#BCBCAC',
   'fighting': '#BC5442',
