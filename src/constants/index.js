@@ -1,5 +1,7 @@
+export const POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon';
+export const POKEMON_TYPES_URL = 'https://pokeapi.co/api/v2/type'
 export const POKEMON_IMAGE_BASE_URL =
-  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
+  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 
 export const POKEMON_TYPE_COLORS = {
   'normal': '#BCBCAC',
@@ -20,5 +22,6 @@ export const POKEMON_TYPE_COLORS = {
   'dragon': '#7866EF',
   'dark': '#785442',
   'fairy': '#FFACFF',
+  'unknown': '#888888',
   'shadow': '#0E2E4C'
 };
