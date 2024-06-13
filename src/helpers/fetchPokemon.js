@@ -1,5 +1,6 @@
 import { POKEMON_TYPES_URL, POKEMON_URL } from "../constants"
 
+
 let pokemons = []
 
 const fetchAllTypes = async () => {
@@ -20,7 +21,7 @@ const fetchAllTypes = async () => {
 }
 
 export const fetchAllPokemons = async () => {
-  let response = await fetch(`${POKEMON_URL}?limit=1302&offset=0`);
+  let response = await fetch(`${POKEMON_URL}?limit=1026&offset=0`);
   let responseAsJson = await response.json();
 
   for (let i = 0; i < responseAsJson.results.length; i++) {
@@ -33,5 +34,5 @@ export const fetchAllPokemons = async () => {
 
   await fetchAllTypes()
 
-  return pokemons
+  return pokemons.splice(0, 1025)
 }

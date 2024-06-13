@@ -1,5 +1,6 @@
 <script setup>
 import { Suspense } from 'vue'
+
 import Loader from './components/Loader.vue'
 import PokemonList from './components/PokemonList.vue';
 </script>
@@ -10,7 +11,9 @@ import PokemonList from './components/PokemonList.vue';
       <PokemonList />
     </template>
     <template #fallback>
-      <Loader />
+      <div class="flex min-h-36 justify-center items-center">
+        <Loader />
+      </div>
     </template>
   </Suspense>
 
