@@ -1,63 +1,75 @@
 <script setup>
-import { ref } from 'vue';
-
 import PokemonType from './PokemonType.vue';
+import Loader from './Loader.vue'
 
-import { formatString } from '../helpers';
+import { extractAbilities, formatString } from '../helpers';
 
-const pokemon = ref({
-  id: 26,
-  name: 'pikachu',
-  types: ['electric'],
-  description: 'When several of these pokémon gather, their electricity could build and cause lightning storms.',
-  height: `0.4m`,
-  weight: '6kg',
-  abilities: ['static', 'lightning-rod'],
-  stats: [{ name: 'HP', base_stat: 35 }, { name: 'ATK', base_stat: 55 }, { name: 'DEF', base_stat: 40 }, { name: 'SpA', base_stat: 50 }, { name: 'SpD', base_stat: 50 }, { name: 'SPD', base_stat: 90 }]
+const { show, pokemon } = defineProps({
+  show: Boolean,
+  pokemon: Object
 })
+// const pokemon = ref({
+//   id: 26,
+//   name: 'pikachu',
+//   types: ['electric'],
+//   description: 'When several of these pokémon gather, their electricity could build and cause lightning storms.',
+//   height: `0.4m`,
+//   weight: '6kg',
+//   abilities: ['static', 'lightning-rod'],
+//   stats: [{ name: 'HP', base_stat: 35 }, { name: 'ATK', base_stat: 55 }, { name: 'DEF', base_stat: 40 }, { name: 'SpA', base_stat: 50 }, { name: 'SpD', base_stat: 50 }, { name: 'SPD', base_stat: 90 }]
+// })
+const emit = defineEmits(['close'])
+
+const closeInfo = () => {
+  emit('close')
+}
 </script>
 
 <template>
-  <div class="pokemon-info-container">
-    <span class="pokemon-info-close-btn" aria-label="close">
+  {{ console.log({ pokemon, show }) }}
+  <div v-if="show" class="pokemon-info-container" :class="show ? 'slide-in' : 'slide-out'">
+    <span @click="closeInfo" class="pokemon-info-close-btn" aria-label="close">
       <img class="text-xs" src="/src/assets/close-icon.png" height="20px" width="20px" alt="close-icon" />
     </span>
-    <div class="pokemon-info-wrapper">
-      <img class="pokemon-info-image" src="/src/assets//no-pokemon-selected-image.png" />
+    <div v-if="!pokemon" class="pokemon-info-wrapper pt-8">
+      <Loader />
+    </div>
+    <div v-else class="pokemon-info-wrapper">
+      <img class="pokemon-info-image" src="/src/assets/no-pokemon-selected-image.png" />
       <div class="pokemon-info">
         <div class="text-center flex flex-col items-center gap-2">
-          <span class="font-semibold text-sm text-[#888888]">N° {{ pokemon.id }}</span>
-          <h2 class="font-bold text-xl capitalize line-clamp-1">{{ formatString(pokemon.name) }}</h2>
+          <span class="font-semibold text-sm text-[#888888]">N° {{ pokemon?.id }}</span>
+          <h2 class="font-bold text-xl capitalize line-clamp-1">{{ formatString(pokemon?.name) }}</h2>
           <div class="flex gap-2">
-            <PokemonType v-for="pokeType in pokemon.types" :key="pokeType" :poke-type="formatString(pokeType)" />
+            <!-- <PokemonType v-for="pokeType in pokemon?.types" :key="pokeType" :poke-type="formatString(pokeType)" /> -->
           </div>
           <h3 class="pokemon-info-subtitle !mb-1">Pokedex Entry</h3>
-          <p class="text-sm text-[#888888]">{{ pokemon.description }}</p>
+          <!-- <p class="text-sm text-[#888888]">{{ pokemon?.description }}</p> -->
           <!-- size -->
           <div class="w-full flex justify-center items-center gap-4">
             <div class="w-full flex flex-col items-center mt-2">
               <h3 class="pokemon-info-subtitle">Height</h3>
-              <p class="pokemon-info-size">{{ pokemon.height }}</p>
+              <p class="pokemon-info-size">{{ pokemon?.height }}</p>
             </div>
             <div class="w-full flex flex-col items-center mt-2">
               <h3 class="pokemon-info-subtitle">Weight</h3>
-              <p class="pokemon-info-size">{{ pokemon.weight }}</p>
+              <p class="pokemon-info-size">{{ pokemon?.weight }}</p>
             </div>
           </div>
           <!-- abilities -->
           <div class="w-full">
             <h3 class="pokemon-info-subtitle">Abilities</h3>
             <div class="w-full flex justify-center items-center gap-4">
-              <p v-for="ability in pokemon.abilities" :key="ability" class="pokemon-info-ability">
+              <p v-for="ability in extractAbilities(pokemon?.abilities)" :key="ability" class="pokemon-info-ability">
                 {{ formatString(ability) }}
               </p>
             </div>
           </div>
           <!-- stats -->
-          <div class="w-full">
+          <!-- <div class="w-full">
             <h3 class="pokemon-info-subtitle">Stats</h3>
             <div class="flex justify-center items-center gap-2">
-              <div v-for="stat in pokemon.stats" :key="stat.name"
+              <div v-for="stat in pokemon?.stats" :key="stat.name"
                 class="flex flex-col items-center justify-center gap-1 bg-[#F6F8FC] p-1 rounded-full">
                 <span
                   class="text-xs font-semibold bg-blue-500 text-[#F6F8FC] size-6 p-4 rounded-full grid place-content-center">
@@ -66,9 +78,9 @@ const pokemon = ref({
                 <span class="text-sm font-semibold">{{ stat.base_stat }}</span>
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- evolutions -->
-          <div class="w-full">
+          <!-- <div class="w-full">
             <h3 class="pokemon-info-subtitle">Evolution</h3>
             <div class="flex justify-center items-center gap-2">
               <img class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer" src="/src/assets/pokeball-icon.png"
@@ -80,7 +92,7 @@ const pokemon = ref({
               <img class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer" src="/src/assets/pokeball-icon.png"
                 alt="name" height="80px" width="80px" />
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -89,7 +101,7 @@ const pokemon = ref({
 
 <style scoped>
 .pokemon-info-container {
-  @apply size-full fixed inset-0 z-10 bg-red-200
+  @apply size-full fixed inset-x-0 bottom-0 z-10 bg-red-200 transition-all duration-500
 }
 
 .pokemon-info-close-btn {
@@ -125,6 +137,36 @@ const pokemon = ref({
 }
 
 .pokemon-info-size, .pokemon-info-ability {
-  @apply w-full bg-[#F6F8FC] py-2 rounded-xl
+  @apply w-full bg-[#F6F8FC] capitalize py-2 rounded-xl
+}
+
+.slide-out {
+  animation: slideOut ease-in-out 0.35s;
+  animation-fill-mode: forwards;
+}
+
+.slide-in {
+  animation: slideIn ease-in-out 0.35s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideOut {
+  0% {
+    bottom: 0
+  }
+
+  100% {
+    bottom: -100vh
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    bottom: -100vh
+  }
+
+  100% {
+    bottom: 0
+  }
 }
 </style>

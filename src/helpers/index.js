@@ -14,3 +14,10 @@ export const formatString = (str, splitter = '-') => {
   let splitStr = str.toLowerCase().split(splitter);
   return splitStr.join(' ');
 }
+
+export const extractAbilities = (abilities = []) => {
+  let extractedAbilities = []
+  abilities.map(({ ability }) => extractedAbilities.push(ability.name))
+
+  return extractedAbilities
+}

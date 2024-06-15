@@ -1,24 +1,38 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import PokemonCard from "./PokemonCard.vue";
 import PokemonInfo from "./PokemonInfo.vue";
 
 import { fetchAllPokemons, fetchPokemonById } from '../helpers';
 
-const pokemon = ref({})
-const pokemons = await fetchAllPokemons()
+const pokemons = ref([])
+const displayInfo = ref(false)
+const selectedPokemon = ref(null)
 
-const openPokemonInfo = async (id) => {
-  pokemon.value = await fetchPokemonById(id)
+onMounted(async () => {
+  try {
+    pokemons.value = await fetchAllPokemons()
+  } catch (error) {
+    console.error('Error fetching pokemon', error)
+  }
+})
+const displayPokemonInfo = async (id) => {
+  displayInfo.value = true
+  selectedPokemon.value = await fetchPokemonById(id)
+}
+
+const hidePokemonInfo = () => {
+  displayInfo.value = false
+  selectedPokemon.value = null
 }
 </script>
 
 <template>
   <div class="flex justify-center flex-col sm:flex-row flex-wrap gap-6">
     <PokemonCard v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon"
-      @open-pokemon-info="openPokemonInfo(pokemon.id)" />
+      @select-pokemon="displayPokemonInfo" />
   </div>
 
-  <PokemonInfo :pokemon="pokemon" />
+  <PokemonInfo :show="displayInfo" :pokemon="selectedPokemon" @close="hidePokemonInfo" />
 </template>
