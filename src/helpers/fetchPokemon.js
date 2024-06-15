@@ -36,3 +36,10 @@ export const fetchAllPokemons = async () => {
 
   return pokemons.splice(0, 1025)
 }
+
+export const fetchPokemonById = async (id) => {
+  let response = await fetch(`${POKEMON_URL}/${id}`);
+  let pokemon = await response.json();
+
+  return pokemon
+}
