@@ -15,7 +15,7 @@ const openPokemonInfo = async (id) => {
 </script>
 
 <template>
-  <div class="flex justify-center flex-col sm:flex-row flex-wrap gap-4">
+  <div class="flex justify-center flex-col sm:flex-row flex-wrap gap-6">
     <PokemonCard v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon"
       @open-pokemon-info="openPokemonInfo(pokemon.id)" />
   </div>
