@@ -29,7 +29,7 @@ export const filterIdFromSpeciesURL = (url) => {
 
 export const extractAbilities = (abilities = []) => {
   let extractedAbilities = []
-  abilities.map(({ ability }) => extractedAbilities.push(ability.name))
+  abilities.map(({ ability }) => extractedAbilities.push(formatString(ability.name)))
 
   return extractedAbilities
 }
@@ -53,7 +53,7 @@ export const extractEvolutionChain = (evolutionChain) => {
 
 export const extractTypes = (types) => {
   let extractedTypes = []
-  types.map(({ type }) => extractedTypes.push(type.name))
+  types.map(({ type }) => extractedTypes.push(formatString(type.name)))
 
   return extractedTypes
 }
@@ -63,4 +63,9 @@ export const extractStats = (stats) => {
   stats.map(({ base_stat, stat: { name } }) => extractedStats.push({ name: POKEMON_STAT_NAMES[name], base_stat }))
 
   return extractedStats
+}
+
+export const extractDescription = (species) => {
+  let desc = species.flavor_text_entries.filter(item => item.language.name === 'en').map(item => item.flavor_text)[0]
+  return formatString(desc).replace('', ' ').split('.')
 }

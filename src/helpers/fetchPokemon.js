@@ -1,4 +1,4 @@
-import { extractAbilities, extractEvolutionChain, extractStats, extractTypes, fetchData } from "."
+import { extractAbilities, extractDescription, extractEvolutionChain, extractStats, extractTypes, fetchData, formatString } from "."
 import { POKEMON_SPECIES_URL, POKEMON_TYPES_URL, POKEMON_URL } from "../constants"
 
 
@@ -41,13 +41,15 @@ export const fetchPokemonById = async (id) => {
   let pokemonSpecies = await fetchData(`${POKEMON_SPECIES_URL}/${id}`);
   let evolutionChain = await fetchData(pokemonSpecies.evolution_chain.url);
 
-  const { name, height, weight } = pokemon
+  const name = formatString(pokemon?.name)
+  const height = `${pokemon?.height / 10}m`// convert height from decimeter to meter
+  const weight = `${pokemon?.weight / 10}kg` // convert weight from decigram to kilogram
   const evolution_chain = extractEvolutionChain(evolutionChain)
   const abilities = extractAbilities(pokemon?.abilities)
   const types = extractTypes(pokemon?.types)
   const stats = extractStats(pokemon?.stats)
+  const description = extractDescription(pokemonSpecies)
 
-  console.log({ pokemon })
-  return { id, name, height, weight, evolution_chain, abilities, types, stats }
+  return { id, name, height, weight, evolution_chain, abilities, types, stats, description }
 }
 

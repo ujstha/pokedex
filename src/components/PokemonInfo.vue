@@ -2,7 +2,7 @@
 import PokemonType from './PokemonType.vue';
 import Loader from './Loader.vue'
 
-import { formatString, getPokemonAnimatedImageURL, increaseImageHeightInPx } from '../helpers';
+import { getPokemonAnimatedImageURL, getPokemonImageURL, increaseImageHeightInPx } from '../helpers';
 
 const { show, pokemon } = defineProps({
   show: Boolean,
@@ -40,12 +40,16 @@ const closeInfo = () => {
       <div class="pokemon-info">
         <div class="text-center flex flex-col items-center gap-2">
           <span class="font-semibold text-sm text-[#888888]">N° {{ pokemon?.id }}</span>
-          <h2 class="font-bold text-xl capitalize line-clamp-1">{{ formatString(pokemon?.name) }}</h2>
+          <h2 class="font-bold text-xl capitalize line-clamp-1">{{ pokemon?.name }}</h2>
           <div class="flex gap-2">
-            <PokemonType v-for="pokeType in pokemon?.types" :key="pokeType" :poke-type="formatString(pokeType)" />
+            <PokemonType v-for="pokeType in pokemon?.types" :key="pokeType" :poke-type="pokeType" />
           </div>
           <h3 class="pokemon-info-subtitle !mb-1">Pokedex Entry</h3>
-          <!-- <p class="text-sm text-[#888888]">{{ pokemon?.description }}</p> -->
+          <p class="text-sm text-[#888888]">
+            <span v-for="desc in pokemon?.description" class="pokemon-info-desc">
+              {{ desc }}.
+            </span>
+          </p>
           <!-- size -->
           <div class="w-full flex justify-center items-center gap-4">
             <div class="w-full flex flex-col items-center mt-2">
@@ -62,7 +66,7 @@ const closeInfo = () => {
             <h3 class="pokemon-info-subtitle">Abilities</h3>
             <div class="w-full flex justify-center items-center gap-4">
               <p v-for="ability in pokemon?.abilities" :key="ability" class="pokemon-info-ability">
-                {{ formatString(ability) }}
+                {{ ability }}
               </p>
             </div>
           </div>
@@ -81,19 +85,26 @@ const closeInfo = () => {
             </div>
           </div>
           <!-- evolutions -->
-          <!-- <div class="w-full">
+          <div class="w-full">
             <h3 class="pokemon-info-subtitle">Evolution</h3>
             <div class="flex justify-center items-center gap-2">
-              <img class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer" src="/src/assets/pokeball-icon.png"
-                alt="name" height="80px" width="80px" />
-              <span class="text-xs bg-[#F6F8FC] rounded-2xl font-semibold p-2">Lv. 16</span>
-              <img class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer" src="/src/assets/pokeball-icon.png"
-                alt="name" height="80px" width="80px" />
-              <span class="text-xs bg-[#F6F8FC] rounded-2xl font-semibold p-2">Lv. 16</span>
-              <img class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer" src="/src/assets/pokeball-icon.png"
-                alt="name" height="80px" width="80px" />
+              <img v-if="pokemon?.evolution_chain[0]?.id"
+                class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer"
+                :src="getPokemonImageURL(pokemon?.evolution_chain[0].id)" alt="name" height="80px" width="80px" />
+              <span v-if="pokemon?.evolution_chain[1]?.level"
+                class="text-xs bg-[#F6F8FC] rounded-2xl font-semibold p-2">
+                Lv. {{ pokemon?.evolution_chain[1]?.level }}</span>
+              <img v-if="pokemon?.evolution_chain[1]?.id"
+                class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer"
+                :src="getPokemonImageURL(pokemon?.evolution_chain[1].id)" alt="name" height="80px" width="80px" />
+              <span v-if="pokemon?.evolution_chain[2]?.level"
+                class="text-xs bg-[#F6F8FC] rounded-2xl font-semibold p-2">
+                Lv. {{ pokemon?.evolution_chain[2]?.level }}</span>
+              <img v-if="pokemon?.evolution_chain[2]?.id"
+                class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer"
+                :src="getPokemonImageURL(pokemon?.evolution_chain[2].id)" alt="name" height="80px" width="80px" />
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -137,7 +148,12 @@ const closeInfo = () => {
   @apply mt-6 mb-2 font-bold text-sm
 }
 
-.pokemon-info-size, .pokemon-info-ability {
+.pokemon-info-desc {
+  @apply inline-block first-letter:capitalize
+}
+
+.pokemon-info-size,
+.pokemon-info-ability {
   @apply w-full bg-[#F6F8FC] capitalize py-2 rounded-xl min-w-[30%]
 }
 
