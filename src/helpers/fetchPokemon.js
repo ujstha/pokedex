@@ -1,4 +1,4 @@
-import { fetchData } from "."
+import { extractAbilities, extractEvolutionChain, extractStats, extractTypes, fetchData } from "."
 import { POKEMON_SPECIES_URL, POKEMON_TYPES_URL, POKEMON_URL } from "../constants"
 
 
@@ -38,18 +38,16 @@ export const fetchAllPokemons = async () => {
 
 export const fetchPokemonById = async (id) => {
   let pokemon = await fetchData(`${POKEMON_URL}/${id}`);
-
-  return pokemon
-}
-
-export const fetchPokemonSpecies = async (id) => {
   let pokemonSpecies = await fetchData(`${POKEMON_SPECIES_URL}/${id}`);
- 
-  return pokemonSpecies
+  let evolutionChain = await fetchData(pokemonSpecies.evolution_chain.url);
+
+  const { name, height, weight } = pokemon
+  const evolution_chain = extractEvolutionChain(evolutionChain)
+  const abilities = extractAbilities(pokemon?.abilities)
+  const types = extractTypes(pokemon?.types)
+  const stats = extractStats(pokemon?.stats)
+
+  console.log({ pokemon })
+  return { id, name, height, weight, evolution_chain, abilities, types, stats }
 }
 
-export const fetchPokemonEvolutionChain = async (url) => {
-  const evolutionChain = await fetchData(url);
-
-  return evolutionChain;
-}

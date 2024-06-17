@@ -2,7 +2,7 @@
 import PokemonType from './PokemonType.vue';
 import Loader from './Loader.vue'
 
-import { extractAbilities, formatString, getPokemonAnimatedImageURL, increaseImageHeightInPx } from '../helpers';
+import { formatString, getPokemonAnimatedImageURL, increaseImageHeightInPx } from '../helpers';
 
 const { show, pokemon } = defineProps({
   show: Boolean,
@@ -42,7 +42,7 @@ const closeInfo = () => {
           <span class="font-semibold text-sm text-[#888888]">N° {{ pokemon?.id }}</span>
           <h2 class="font-bold text-xl capitalize line-clamp-1">{{ formatString(pokemon?.name) }}</h2>
           <div class="flex gap-2">
-            <!-- <PokemonType v-for="pokeType in pokemon?.types" :key="pokeType" :poke-type="formatString(pokeType)" /> -->
+            <PokemonType v-for="pokeType in pokemon?.types" :key="pokeType" :poke-type="formatString(pokeType)" />
           </div>
           <h3 class="pokemon-info-subtitle !mb-1">Pokedex Entry</h3>
           <!-- <p class="text-sm text-[#888888]">{{ pokemon?.description }}</p> -->
@@ -61,13 +61,13 @@ const closeInfo = () => {
           <div class="w-full">
             <h3 class="pokemon-info-subtitle">Abilities</h3>
             <div class="w-full flex justify-center items-center gap-4">
-              <p v-for="ability in extractAbilities(pokemon?.abilities)" :key="ability" class="pokemon-info-ability">
+              <p v-for="ability in pokemon?.abilities" :key="ability" class="pokemon-info-ability">
                 {{ formatString(ability) }}
               </p>
             </div>
           </div>
           <!-- stats -->
-          <!-- <div class="w-full">
+          <div class="w-full">
             <h3 class="pokemon-info-subtitle">Stats</h3>
             <div class="flex justify-center items-center gap-2">
               <div v-for="stat in pokemon?.stats" :key="stat.name"
@@ -79,7 +79,7 @@ const closeInfo = () => {
                 <span class="text-sm font-semibold">{{ stat.base_stat }}</span>
               </div>
             </div>
-          </div> -->
+          </div>
           <!-- evolutions -->
           <!-- <div class="w-full">
             <h3 class="pokemon-info-subtitle">Evolution</h3>
