@@ -1,8 +1,16 @@
-import { extractAbilities, extractDescription, extractEvolutionChain, extractStats, extractTypes, fetchData, formatString } from "."
+import { extractAbilities, extractDescription, extractEvolutionChain, extractStats, extractTypes } from "./extractPokemonData"
 import { POKEMON_SPECIES_URL, POKEMON_TYPES_URL, POKEMON_URL } from "../constants"
+import { formatString } from "."
 
 
 let pokemons = []
+
+export const fetchData = async (url) => {
+  const response = await fetch(url)
+  const responseAsJson = await response.json()
+
+  return responseAsJson
+}
 
 const fetchAllTypes = async () => {
   for (let i = 0; i < 18; i++) {

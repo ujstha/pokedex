@@ -22,7 +22,6 @@ const selectPokemon = async (id) => {
 </script>
 
 <template>
-  {{ console.log({ pokemon, show }) }}
   <div v-if="show" class="pokemon-info-container" :class="show ? 'slide-in' : 'slide-out'"
     :style="{ backgroundColor: POKEMON_TYPE_COLORS[pokemon?.types[0]] }">
     <span @click="closeInfo" class="pokemon-info-close-btn" aria-label="close">

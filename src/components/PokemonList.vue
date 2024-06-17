@@ -14,7 +14,7 @@ onMounted(async () => {
   try {
     pokemons.value = await fetchAllPokemons()
   } catch (error) {
-    console.error('Error fetching pokemon', error)
+    alert('Error fetching pokemon', error)
   }
 })
 const displayPokemonInfo = async (id) => {
