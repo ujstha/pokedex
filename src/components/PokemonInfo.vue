@@ -113,7 +113,7 @@ const selectPokemon = async (id) => {
 }
 
 .pokemon-info-wrapper {
-  @apply bg-white h-[80dvh] max-w-3xl mx-auto absolute bottom-0 w-full inset-x-0 rounded-t-2xl flex flex-col items-center shadow-xl shadow-[#242424]
+  @apply bg-white h-[80dvh] max-w-3xl mx-auto absolute bottom-0 w-full inset-x-0 rounded-t-2xl flex flex-col items-center shadow-xl shadow-[#888888]
 }
 
 .pokemon-info {

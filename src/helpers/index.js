@@ -1,4 +1,4 @@
-import { POKEMON_IMAGE_ANIMATED_URL, POKEMON_IMAGE_BASE_URL } from '../constants'
+import { POKEMON_IMAGE_ANIMATED_URL, POKEMON_IMAGE_BASE_URL, POKEMON_SPECIES_URL } from '../constants'
 
 export * from './fetchPokemon'
 
@@ -16,6 +16,6 @@ export const formatString = (str, splitter = '-') => {
 }
 
 export const filterIdFromSpeciesURL = (url) => {
-  return url.replace('https://pokeapi.co/api/v2/pokemon-species/', '').replace('/', '');
+  return url.replace(`${POKEMON_SPECIES_URL}/`, '').replace('/', '');
 };
 
