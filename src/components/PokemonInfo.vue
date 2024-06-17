@@ -3,31 +3,28 @@ import PokemonType from './PokemonType.vue';
 import Loader from './Loader.vue'
 
 import { getPokemonAnimatedImageURL, getPokemonImageURL, increaseImageHeightInPx } from '../helpers';
+import { POKEMON_STAT_COLORS, POKEMON_TYPE_COLORS } from '../constants';
 
 const { show, pokemon } = defineProps({
   show: Boolean,
   pokemon: Object
 })
-// const pokemon = ref({
-//   id: 26,
-//   name: 'pikachu',
-//   types: ['electric'],
-//   description: 'When several of these pokémon gather, their electricity could build and cause lightning storms.',
-//   height: `0.4m`,
-//   weight: '6kg',
-//   abilities: ['static', 'lightning-rod'],
-//   stats: [{ name: 'HP', base_stat: 35 }, { name: 'ATK', base_stat: 55 }, { name: 'DEF', base_stat: 40 }, { name: 'SpA', base_stat: 50 }, { name: 'SpD', base_stat: 50 }, { name: 'SPD', base_stat: 90 }]
-// })
-const emit = defineEmits(['close'])
+
+const emit = defineEmits(['close', 'selectPokemon'])
 
 const closeInfo = () => {
   emit('close')
+}
+
+const selectPokemon = async (id) => {
+  await emit('selectPokemon', id)
 }
 </script>
 
 <template>
   {{ console.log({ pokemon, show }) }}
-  <div v-if="show" class="pokemon-info-container" :class="show ? 'slide-in' : 'slide-out'">
+  <div v-if="show" class="pokemon-info-container" :class="show ? 'slide-in' : 'slide-out'"
+    :style="{ backgroundColor: POKEMON_TYPE_COLORS[pokemon?.types[0]] }">
     <span @click="closeInfo" class="pokemon-info-close-btn" aria-label="close">
       <img class="text-xs" src="/src/assets/close-icon.png" height="20px" width="20px" alt="close-icon" />
     </span>
@@ -76,8 +73,8 @@ const closeInfo = () => {
             <div class="flex justify-center items-center gap-2">
               <div v-for="stat in pokemon?.stats" :key="stat.name"
                 class="flex flex-col items-center justify-center gap-1 bg-[#F6F8FC] p-1 rounded-full">
-                <span
-                  class="text-xs font-semibold bg-blue-500 text-[#F6F8FC] size-6 p-4 rounded-full grid place-content-center">
+                <span class="text-xs font-semibold text-[#F6F8FC] size-6 p-4 rounded-full grid place-content-center"
+                  :style="{ backgroundColor: POKEMON_STAT_COLORS[stat.name] }" :aria-label="stat.name">
                   {{ stat.name }}
                 </span>
                 <span class="text-sm font-semibold">{{ stat.base_stat }}</span>
@@ -88,21 +85,17 @@ const closeInfo = () => {
           <div class="w-full">
             <h3 class="pokemon-info-subtitle">Evolution</h3>
             <div class="flex justify-center items-center gap-2">
-              <img v-if="pokemon?.evolution_chain[0]?.id"
-                class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer"
-                :src="getPokemonImageURL(pokemon?.evolution_chain[0].id)" alt="name" height="80px" width="80px" />
-              <span v-if="pokemon?.evolution_chain[1]?.level"
-                class="text-xs bg-[#F6F8FC] rounded-2xl font-semibold p-2">
-                Lv. {{ pokemon?.evolution_chain[1]?.level }}</span>
-              <img v-if="pokemon?.evolution_chain[1]?.id"
-                class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer"
-                :src="getPokemonImageURL(pokemon?.evolution_chain[1].id)" alt="name" height="80px" width="80px" />
-              <span v-if="pokemon?.evolution_chain[2]?.level"
-                class="text-xs bg-[#F6F8FC] rounded-2xl font-semibold p-2">
-                Lv. {{ pokemon?.evolution_chain[2]?.level }}</span>
-              <img v-if="pokemon?.evolution_chain[2]?.id"
-                class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer"
-                :src="getPokemonImageURL(pokemon?.evolution_chain[2].id)" alt="name" height="80px" width="80px" />
+              <span v-for="(chain, index) in pokemon?.evolution_chain" class="flex justify-center items-center gap-2">
+                <span v-if="index > 0" class="text-xs bg-[#F6F8FC] rounded-2xl font-semibold p-2">
+                  Lv. {{ chain?.level || '?' }}
+                </span>
+                <span>
+                  <img v-if="chain?.id" class="text-xs p-2 rounded-2xl hover:bg-[#F6F8FC] cursor-pointer"
+                    :src="getPokemonImageURL(chain.id)" :alt="chain?.name" height="80px" width="80px"
+                    @click="selectPokemon(chain.id)" />
+                  <span class="text-xs">{{ chain.name }}</span>
+                </span>
+              </span>
             </div>
           </div>
         </div>
@@ -113,7 +106,7 @@ const closeInfo = () => {
 
 <style scoped>
 .pokemon-info-container {
-  @apply size-full fixed inset-x-0 bottom-0 z-10 bg-red-200
+  @apply size-full fixed inset-x-0 bottom-0 z-10 bg-[#F6F8FC]
 }
 
 .pokemon-info-close-btn {
@@ -121,7 +114,7 @@ const closeInfo = () => {
 }
 
 .pokemon-info-wrapper {
-  @apply bg-white h-[80dvh] absolute bottom-0 w-full inset-x-0 rounded-t-2xl flex flex-col items-center
+  @apply bg-white h-[80dvh] max-w-3xl mx-auto absolute bottom-0 w-full inset-x-0 rounded-t-2xl flex flex-col items-center shadow-xl shadow-[#242424]
 }
 
 .pokemon-info {

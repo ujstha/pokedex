@@ -27,6 +27,14 @@ export const POKEMON_TYPE_COLORS = {
   'unknown': '#888888',
   'shadow': '#0E2E4C'
 };
+export const POKEMON_STAT_COLORS = {
+  'HP': '#DF2140',
+  'ATK': '#FF994D',
+  'DEF': '#EECD3D',
+  'SpA': '#85DDFF',
+  'SpD': '#96DA83',
+  'SPD': '#FB94A8'
+};
 export const POKEMON_STAT_NAMES = {
   'hp': 'HP',
   'attack': 'ATK',
@@ -34,4 +42,4 @@ export const POKEMON_STAT_NAMES = {
   'special-attack': 'SpA',
   'special-defense': 'SpD',
   'speed': 'SPD'
-}
+};

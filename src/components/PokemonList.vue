@@ -34,5 +34,6 @@ const hidePokemonInfo = () => {
       @select-pokemon="displayPokemonInfo" />
   </div>
 
-  <PokemonInfo :show="displayInfo" :pokemon="selectedPokemon" @close="hidePokemonInfo" />
+  <PokemonInfo :show="displayInfo" :pokemon="selectedPokemon" @close="hidePokemonInfo"
+    @select-pokemon="displayPokemonInfo" />
 </template>
