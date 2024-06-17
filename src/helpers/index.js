@@ -15,9 +15,20 @@ export const formatString = (str, splitter = '-') => {
   return splitStr.join(' ');
 }
 
+export const fetchData = async (url) => {
+  const response = await fetch(url)
+  const responseAsJson = await response.json()
+  
+  return responseAsJson
+}
+
 export const extractAbilities = (abilities = []) => {
   let extractedAbilities = []
   abilities.map(({ ability }) => extractedAbilities.push(ability.name))
 
   return extractedAbilities
+}
+
+export const extractEvolutionChain = (species) => {
+  return species.url
 }

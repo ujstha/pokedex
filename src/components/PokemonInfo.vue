@@ -2,7 +2,7 @@
 import PokemonType from './PokemonType.vue';
 import Loader from './Loader.vue'
 
-import { extractAbilities, formatString } from '../helpers';
+import { extractAbilities, formatString, getPokemonAnimatedImageURL, increaseImageHeightInPx } from '../helpers';
 
 const { show, pokemon } = defineProps({
   show: Boolean,
@@ -35,7 +35,8 @@ const closeInfo = () => {
       <Loader />
     </div>
     <div v-else class="pokemon-info-wrapper">
-      <img class="pokemon-info-image" src="/src/assets/no-pokemon-selected-image.png" />
+      <img class="pokemon-info-image" :src="getPokemonAnimatedImageURL(pokemon?.id)"
+        :height="increaseImageHeightInPx(pokemon?.height)" width="150px" :alt="pokemon?.name" />
       <div class="pokemon-info">
         <div class="text-center flex flex-col items-center gap-2">
           <span class="font-semibold text-sm text-[#888888]">N° {{ pokemon?.id }}</span>
@@ -101,7 +102,7 @@ const closeInfo = () => {
 
 <style scoped>
 .pokemon-info-container {
-  @apply size-full fixed inset-x-0 bottom-0 z-10 bg-red-200 transition-all duration-500
+  @apply size-full fixed inset-x-0 bottom-0 z-10 bg-red-200
 }
 
 .pokemon-info-close-btn {
@@ -109,7 +110,7 @@ const closeInfo = () => {
 }
 
 .pokemon-info-wrapper {
-  @apply bg-white h-[77dvh] absolute bottom-0 w-full inset-x-0 rounded-t-2xl flex flex-col items-center
+  @apply bg-white h-[80dvh] absolute bottom-0 w-full inset-x-0 rounded-t-2xl flex flex-col items-center
 }
 
 .pokemon-info {
@@ -129,7 +130,7 @@ const closeInfo = () => {
 }
 
 .pokemon-info-image {
-  @apply absolute bottom-[72dvh] inset-x-0 mx-auto
+  @apply absolute bottom-[75dvh] inset-x-0 mx-auto
 }
 
 .pokemon-info-subtitle {
@@ -137,7 +138,7 @@ const closeInfo = () => {
 }
 
 .pokemon-info-size, .pokemon-info-ability {
-  @apply w-full bg-[#F6F8FC] capitalize py-2 rounded-xl
+  @apply w-full bg-[#F6F8FC] capitalize py-2 rounded-xl min-w-[30%]
 }
 
 .slide-out {

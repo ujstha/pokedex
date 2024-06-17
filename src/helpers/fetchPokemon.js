@@ -1,12 +1,12 @@
-import { POKEMON_TYPES_URL, POKEMON_URL } from "../constants"
+import { fetchData } from "."
+import { POKEMON_SPECIES_URL, POKEMON_TYPES_URL, POKEMON_URL } from "../constants"
 
 
 let pokemons = []
 
 const fetchAllTypes = async () => {
   for (let i = 0; i < 18; i++) {
-    let response = await fetch(`${POKEMON_TYPES_URL}/${i + 1}`)
-    let responseAsJson = await response.json()
+    let responseAsJson = await fetchData(`${POKEMON_TYPES_URL}/${i + 1}`)
 
     const pokemonInType = responseAsJson.pokemon
 
@@ -21,8 +21,7 @@ const fetchAllTypes = async () => {
 }
 
 export const fetchAllPokemons = async () => {
-  let response = await fetch(`${POKEMON_URL}?limit=1026&offset=0`);
-  let responseAsJson = await response.json();
+  let responseAsJson = await fetchData(`${POKEMON_URL}?limit=1026&offset=0`);
 
   for (let i = 0; i < responseAsJson.results.length; i++) {
     pokemons.push({
@@ -38,8 +37,19 @@ export const fetchAllPokemons = async () => {
 }
 
 export const fetchPokemonById = async (id) => {
-  let response = await fetch(`${POKEMON_URL}/${id}`);
-  let pokemon = await response.json();
+  let pokemon = await fetchData(`${POKEMON_URL}/${id}`);
 
   return pokemon
+}
+
+export const fetchPokemonSpecies = async (id) => {
+  let pokemonSpecies = await fetchData(`${POKEMON_SPECIES_URL}/${id}`);
+ 
+  return pokemonSpecies
+}
+
+export const fetchPokemonEvolutionChain = async (url) => {
+  const evolutionChain = await fetchData(url);
+
+  return evolutionChain;
 }
