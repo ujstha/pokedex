@@ -55,7 +55,7 @@ const selectPokemon = async (id) => {
       <div class="pokemon-info">
         <div class="flex flex-col items-center gap-2 text-center">
           <span class="text-sm font-semibold text-[#888888]"
-            >N° {{ pokemon?.id }}</span
+            >#{{ pokemon?.id }}</span
           >
           <h2 class="line-clamp-1 text-xl font-bold capitalize">
             {{ pokemon?.name }}
@@ -69,12 +69,7 @@ const selectPokemon = async (id) => {
           </div>
           <h3 class="pokemon-info-subtitle !mb-1">Pokedex Entry</h3>
           <p class="text-sm text-[#888888]">
-            <span
-              v-for="desc in pokemon?.description"
-              class="pokemon-info-desc"
-            >
-              {{ desc }}.
-            </span>
+            {{ pokemon?.description }}
           </p>
           <!-- size -->
           <div class="flex w-full items-center justify-center gap-4">
@@ -122,7 +117,7 @@ const selectPokemon = async (id) => {
           </div>
           <!-- evolutions -->
           <div class="w-full">
-            <h3 class="pokemon-info-subtitle">Evolution</h3>
+            <h3 class="pokemon-info-subtitle">Evolutions</h3>
             <div class="flex items-center justify-center gap-2">
               <span
                 v-for="(chain, index) in pokemon?.evolution_chain"
@@ -130,19 +125,17 @@ const selectPokemon = async (id) => {
               >
                 <span
                   v-if="index > 0"
-                  class="rounded-2xl bg-[#F6F8FC] p-2 text-xs font-semibold"
+                  class="rounded-2xl p-2 text-xl font-semibold"
                 >
-                  Lv. {{ chain?.level || "?" }}
+                  &gt;
                 </span>
-                <span>
+                <span v-if="chain?.id" @click="selectPokemon(chain.id)">
                   <img
-                    v-if="chain?.id"
-                    class="cursor-pointer rounded-2xl p-2 text-xs hover:bg-[#F6F8FC]"
                     :src="getPokemonImageURL(chain.id)"
+                    class="cursor-pointer rounded-2xl border border-[#F6F8FC] p-2 text-xs hover:bg-[#F6F8FC]"
                     :alt="chain?.name"
                     height="80px"
                     width="80px"
-                    @click="selectPokemon(chain.id)"
                   />
                   <span class="text-xs">{{ chain.name }}</span>
                 </span>

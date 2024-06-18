@@ -14,26 +14,21 @@ export const extractEvolutionChain = (evolutionChain) => {
   let extractedChain = [];
   const { chain } = evolutionChain;
 
-  extractedChain.push({
-    id: filterIdFromSpeciesURL(chain.species.url),
-    name: chain.species.name,
-    level: null,
-  });
+  const pushEvoData = (evo) => {
+    return extractedChain.push({
+      id: filterIdFromSpeciesURL(evo.species.url),
+      name: evo.species.name,
+    });
+  };
+
+  pushEvoData(chain);
 
   if (chain.evolves_to.length > 0) {
-    extractedChain.push({
-      id: filterIdFromSpeciesURL(chain.evolves_to[0].species.url),
-      name: chain.evolves_to[0].species.name,
-      level: chain.evolves_to[0].evolution_details[0].min_level,
-    });
+    pushEvoData(chain?.evolves_to[0]);
   }
 
   if (chain.evolves_to[0].evolves_to.length > 0) {
-    extractedChain.push({
-      id: filterIdFromSpeciesURL(chain.evolves_to[0].evolves_to[0].species.url),
-      name: chain.evolves_to[0].evolves_to[0].species.name,
-      level: chain.evolves_to[0].evolves_to[0].evolution_details[0].min_level,
-    });
+    pushEvoData(chain?.evolves_to[0]?.evolves_to[0]);
   }
 
   return extractedChain;
@@ -59,5 +54,5 @@ export const extractDescription = (species) => {
   let desc = species.flavor_text_entries
     .filter((item) => item.language.name === "en")
     .map((item) => item.flavor_text)[0];
-  return formatString(desc).replace("", " ").split(".");
+  return desc.replace("", " ");
 };
