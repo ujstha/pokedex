@@ -1,8 +1,8 @@
 <script setup>
-import { Suspense } from 'vue'
+import { Suspense } from "vue";
 
-import Loader from './components/Loader.vue'
-import PokemonList from './components/PokemonList.vue';
+import Loader from "./components/Loader.vue";
+import PokemonList from "./components/PokemonList.vue";
 </script>
 
 <template>
@@ -11,12 +11,11 @@ import PokemonList from './components/PokemonList.vue';
       <PokemonList />
     </template>
     <template #fallback>
-      <div class="flex min-h-36 justify-center items-center">
+      <div class="flex min-h-36 items-center justify-center">
         <Loader />
       </div>
     </template>
   </Suspense>
-
 </template>
 
 <style scoped></style>
