@@ -1,13 +1,37 @@
+<script setup>
+import { ref, watch } from "vue";
+
+const { modelValue } = defineProps({
+  modelValue: String,
+});
+
+const emits = defineEmits(["update:modelValue", "search"]);
+
+const internalValue = ref(modelValue);
+
+watch(internalValue, (newValue) => {
+  emits("update:modelValue", newValue);
+});
+
+const searchPokemon = () => {
+  emits("search");
+};
+</script>
+
 <template>
   <div class="relative">
     <input
       type="search"
+      v-model="internalValue"
+      @input="searchPokemon"
+      @keyup.enter="searchPokemon"
       placeholder="Search your Pokemon"
       class="w-full rounded-xl bg-white py-4 pl-3 pr-10 outline-none transition-all duration-200 focus:outline-blue-500/90 sm:py-5 sm:pl-5 sm:pr-14"
     />
     <span
       class="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-xl bg-blue-500 p-2 text-white transition-all duration-200 hover:bg-blue-600"
       aria-label="search"
+      @click="searchPokemon"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

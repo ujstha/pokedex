@@ -23,9 +23,7 @@ const selectPokemon = async (id) => {
       class="absolute -top-14 z-[10] text-xs transition-transform duration-100 group-hover:scale-110"
       :alt="pokemon.name"
     />
-    <span class="text-sm font-semibold text-[#888888]"
-      >N° {{ pokemon.id }}</span
-    >
+    <span class="text-sm font-semibold text-[#888888]">#{{ pokemon.id }}</span>
     <h2 class="line-clamp-1 text-lg font-bold capitalize">
       {{ formatString(pokemon.name) }}
     </h2>
