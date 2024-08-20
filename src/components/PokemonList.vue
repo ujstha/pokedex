@@ -93,7 +93,10 @@ onBeforeUnmount(() => {
       @select-pokemon="displayPokemonInfo"
     />
   </div>
-  <div v-if="loading" class="flex justify-center py-6">
+  <div
+    v-if="loading || visiblePokemons.length === 0"
+    class="flex justify-center py-6"
+  >
     <Loader />
   </div>
   <PokemonInfo
